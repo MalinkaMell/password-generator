@@ -12,48 +12,48 @@ const upperCasedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 function pwdOptions() {
 
   //how long our password should be?
-  let pwdLenght = parseInt(prompt("How long?"));
+  let pwdLength = parseInt(prompt("How many characters would you like your password to contain?"));
 
-  console.log(pwdLenght);
+  console.log(pwdLength);
 
   //check if user had insert the number
-  if (isNaN(pwdLenght)) {
-    alert("must be number!");
+  if (isNaN(pwdLength)) {
+    alert("Password length must be provided as a number");
     return;
   }
 
   //check if it is at least 8 characters long
-  if (pwdLenght < 8) {
-    alert("at least 8!");
+  if (pwdLength < 8) {
+    alert("Password length must be at least 8 characters!");
     return;
   }
 
   //check if it is not longer than 128 chars
-  if (pwdLenght > 128) {
-    alert("max 128!");
+  if (pwdLength > 128) {
+    alert("Password length must less than 128 characters");
     return;
   }
 
   //ask user if he wants special chars
-  let specials = confirm("Specials?");
+  let specials = confirm("Click OK to confirm including special characters");
 
   //ask user if he wants numeric chars
-  let numeric = confirm("numerics?");
+  let numeric = confirm("Click OK to confirm including numeric characters");
 
   //ask user if he wants lower case chars
-  let lower = confirm("lowers?");
+  let lower = confirm("Click OK to confirm including lowercase characters");
 
   //ask user if he wants upper case chars
-  let upper = confirm("uppers?");
+  let upper = confirm("Click OK to confirm including uppercase characters");
 
   //check if none of the options were chosen, in that case, return
   if (!specials && !numeric && !lower && !upper) {
-    alert("at least one set please");
+    alert("Select at least one set of characters");
     return;
   }
   //create an object with options
   let options = {
-    pwdLenght,
+    pwdLength,
     specials,
     numeric,
     lower,
@@ -66,43 +66,43 @@ function pwdOptions() {
 //main function that will generate password based on selected options
 function generatePwd() {
   let options = pwdOptions(); //grab our options
-  let concats = ""; //add here characters based on selected options
-  let guaranted = ""; //if the option was selected, we want at least one character from given set to be guaranted, so while selecting and adding to the contacts, also will pick one random char from set and add here
+  let concatStr = ""; //add here characters based on selected options
+  let replaceWith = ""; //if the option was selected, we want at least one character from given set to be replaceWith, so while selecting and adding to the contacts, also will pick one random char from set and add here
   let finalPwd = ""; //final password generated for user 
 
   if (options.specials) {
-    concats += specialChars;
-    guaranted += pickRandom(specialChars);
+    concatStr += specialChars;
+    replaceWith += pickRandom(specialChars);
   }
 
   if (options.numeric) {
-    concats += numericChars;
-    guaranted += pickRandom(numericChars);
+    concatStr += numericChars;
+    replaceWith += pickRandom(numericChars);
   }
 
   if (options.lower) {
-    concats += lowerCasedChars;
-    guaranted += pickRandom(lowerCasedChars);
+    concatStr += lowerCasedChars;
+    replaceWith += pickRandom(lowerCasedChars);
   }
 
   if (options.upper) {
-    concats += upperCasedChars;
-    guaranted += pickRandom(upperCasedChars);
+    concatStr += upperCasedChars;
+    replaceWith += pickRandom(upperCasedChars);
   }
 
-  //make a for loop based on chosen password length, loop trough concats array, pick random characters and push in final password array
-  for (let i = 0; i < options.pwdLenght; i++) {
-    finalPwd += pickRandom(concats);
+  //make a for loop based on chosen password length, loop trough concatStr array, pick random characters and push in final password array
+  for (let i = 0; i < options.pwdLength; i++) {
+    finalPwd += pickRandom(concatStr);
   }
-  //take guaranted array with our guaranted characters, and substitute characters from final password array with those
-  for (let i = 0; i < guaranted.length; i++) {
+  //take replaceWith array with our replaceWith characters, and substitute characters from final password array with those
+  for (let i = 0; i < replaceWith.length; i++) {
     let str = finalPwd;
-    finalPwd = str.replace(finalPwd[i], guaranted[i]);
+    finalPwd = str.replace(finalPwd[i], replaceWith[i]);
   }
 
 
-  console.log("guaranted: ", guaranted);
-  console.log("concats: ", concats);
+  console.log("replaceWith: ", replaceWith);
+  console.log("concatStr: ", concatStr);
   console.log("finalPwd: ", finalPwd);
   //return final password, transfor it to string
   return finalPwd;
